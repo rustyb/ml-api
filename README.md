@@ -8,6 +8,7 @@ Kind of inspired by what the was done with the Red Cross' [OSM Stats](https://gi
 
 ```
 npm install
+npm run migrations
 DATABASE_URL=postgres://USERNAME:@localhost:5432/DBNAME npm run serve
 ```
 
