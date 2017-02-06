@@ -45,7 +45,16 @@ osm2pgsql \
     --extra-attributes \
     --slim \
     --database=lesotho16 \
-    -C 4096 \
+    -C 6144 \
     --number-processes 4 lesotho-latest.osm.pbf
 ```
 
+
+# On a POSM
+
+Run the following commands to get set up:
+
+carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
+osm_carto_pg_dbname="${osm_carto_pg_dbname:-lesotho16}"
+
+See the contents of [ml-install.sh](./ml-install.sh)
