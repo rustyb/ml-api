@@ -9,21 +9,19 @@ const db = require('knex')({
 });
 
 module.exports = function (geo) {
-  const query = db('planet_osm_polygon')
-      .select('building',
-              db.raw('round(SUM(ST_Perimeter(way))::numeric, 0) as perimiter'),
-              db.raw('round((AVG(ST_Area(way)))::numeric, 0) as sqm')
-      )
-      .count('building')
-      .whereNotNull('building')
-      .orderBy('building')
-      .groupBy('building')
+  const query = db('planet_osm_point')
+      .select('amenity')
+      .count('amenity')      
+      .whereNotNull('amenity')
+      .orderBy('amenity')
+      .groupBy('amenity')
 
   if (geo) {
     return query.where(
-        db.raw(`ST_Intersects(planet_osm_polygon.way, ` + 
+        db.raw(`ST_Intersects(planet_osm_point.way, ` + 
           `(select ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(geo)}'),4326),900913) ))`)
         )
   }
+
   return query
 }

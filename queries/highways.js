@@ -9,13 +9,19 @@ const db = require('knex')({
 });
 
 module.exports = function (geo) {
-return db('planet_osm_line')
+  const query = db('planet_osm_line')
       .select('highway',
         db.raw('round(SUM(ST_Length(way)/1000)::numeric, 2) as km')
       )
       .count('highway')
-      .where(db.raw(`ST_Intersects(planet_osm_line.way, (select ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(geo)}'),4326),900913) ))`))
       .whereNotNull('highway')
+      .orderBy('highway')
       .groupBy('highway')
+  
+  if (geo) {
+    return query.where(db.raw(`ST_Intersects(planet_osm_line.way, (select ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(geo)}'),4326),900913) ))`))
+  }
+  
+  return query
 
 }
