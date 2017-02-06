@@ -12,7 +12,7 @@ var config = local || {};
  * @name Configuration
  */
 production = {
-  // DATABASE_URL: 'postgres://'+process.env.DATABASE_US+':'+process.env.DATABASE_UP+'@localhost:5432/scrape',
+  DATABASE_URL: process.env.DATABASE_URL,
   port: process.env.PORT || 4000,
   cache: process.env.CACHE_CONTROL ||  86400, // A day in seconds
   logOptions: local.logOptions || {
